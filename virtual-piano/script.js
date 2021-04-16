@@ -1,5 +1,5 @@
 const piano = document.querySelector('.piano');
-
+// !!!
 piano.addEventListener('mousedown', function (event) {
     const pianoButton = event.target;
 
@@ -10,7 +10,7 @@ piano.addEventListener('mousedown', function (event) {
         pianoButton.addEventListener('mouseout', function (event) {
             event.target.classList.remove("piano-key-active")
         }, {once: true})
-        
+
 
         const note = pianoButton.dataset.note;
         const src = `./assets/audio/${note}.mp3`;
