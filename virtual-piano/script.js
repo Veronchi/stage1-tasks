@@ -1,24 +1,39 @@
 const piano = document.querySelector('.piano');
-// !!!
-piano.addEventListener('mousedown', function (event) {
-    const pianoButton = event.target;
 
-    if (pianoButton.classList.contains('piano-key')) {
-        pianoButton.addEventListener('mouseup', function (event) {
-            event.target.classList.remove("piano-key-active")
-        }, {once: true})
-        pianoButton.addEventListener('mouseout', function (event) {
-            event.target.classList.remove("piano-key-active")
-        }, {once: true})
+const modelPiano = {
+    elPiano: piano,
+    lastTargetElement: null
+}
 
+modelPiano.elPiano.addEventListener('mousedown', function (event) {
+    
+    if (event.target.classList.contains('piano-key')) {
+        modelPiano.lastTargetElement = event.target;
 
-        const note = pianoButton.dataset.note;
+        modelPiano.elPiano.addEventListener('mouseover', overCall)
+
+        document.addEventListener('mouseup', function (event) {
+            modelPiano.lastTargetElement.classList.remove("piano-key-active")
+            modelPiano.elPiano.removeEventListener('mouseover', overCall)
+        }, { once: true })        
+        
+        const note = modelPiano.lastTargetElement.dataset.note;
         const src = `./assets/audio/${note}.mp3`;
         playAudio(src);
-        getActiveBtn(pianoButton);
+        getActiveBtn(modelPiano.lastTargetElement);
     }
-
+    
 });
+
+function overCall(event) {
+    if (event.target.classList.contains('piano-key')) {
+        modelPiano.lastTargetElement = event.target;
+        const note = modelPiano.lastTargetElement.dataset.note;
+        const src = `./assets/audio/${note}.mp3`;
+        playAudio(src);
+        getActiveBtn(modelPiano.lastTargetElement);
+    }
+}
 
 function getActiveBtn(target) {
     const pianoKeys = document.querySelectorAll('.piano-key')
