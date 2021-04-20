@@ -113,3 +113,13 @@ function removeClassLetter(pianoKey) {
         el.classList.remove('piano-key-letter');
     });
 }
+
+let fullScreenBtn = document.querySelector('.fullscreen');
+
+fullScreenBtn.addEventListener('click', function() {
+    if(document.fullscreenElement) {
+        document.exitFullscreen();
+    }
+
+    document.body.requestFullscreen(); 
+})
